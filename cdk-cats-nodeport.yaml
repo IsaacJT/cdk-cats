@@ -1,4 +1,4 @@
-apiVersion: apps/v1 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
@@ -49,16 +49,18 @@ spec:
     port: 80
     targetPort: 80
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
  name: cdk-cats
 spec:
  rules:
-   - host: cats.51.255.64.68.xip.io
-     http:
+   - http:
        paths:
          - path: /
+           pathType: Prefix
            backend:
-             serviceName: cdk-cats
-             servicePort: 80
+            service:
+              name: cdk-cats
+              port:
+                number: 80
